@@ -33,9 +33,6 @@ ScopeLedger maintains a longitudinal source of project truth instead of treating
 
 ## Architecture
 
-```text
-## Architecture
-
 ```mermaid
 flowchart TD
 
