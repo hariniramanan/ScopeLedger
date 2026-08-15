@@ -78,7 +78,6 @@ flowchart TD
 - **CockroachDB Managed MCP** provides agent access to live project memory.
 - **ccloud CLI** is used for CockroachDB Cloud operational inspection and management.
 - **Amazon Bedrock is optional** and is not required for the core ScopeLedger workflow.
-```
 
 CockroachDB Managed MCP provides agent access to the live project memory.
 
