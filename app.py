@@ -20,9 +20,19 @@ st.set_page_config(
 
 load_dotenv()
 
-API_URL = os.getenv("SCOPELEDGER_API_URL")
-WRITE_KEY = os.getenv("SCOPELEDGER_WRITE_KEY")
+API_URL = os.getenv(
+    "SCOPELEDGER_API_URL"
+) or st.secrets.get(
+    "SCOPELEDGER_API_URL",
+    None,
+)
 
+WRITE_KEY = os.getenv(
+    "SCOPELEDGER_WRITE_KEY"
+) or st.secrets.get(
+    "SCOPELEDGER_WRITE_KEY",
+    None,
+)
 
 EMBEDDING_MODEL_NAME = (
     "sentence-transformers/all-MiniLM-L6-v2"
