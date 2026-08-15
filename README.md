@@ -4,6 +4,12 @@ ScopeLedger is an evidence-backed project memory agent for client delivery teams
 
 It turns meeting history into persistent project memory, detects delivery risks and scope changes, retrieves relevant historical evidence semantically, and generates deterministic budget/deadline planning options.
 
+## Live Demo
+
+Try ScopeLedger here:
+
+[Open ScopeLedger](https://scopeledger-3cuqvrjmnnafjcgzq2xeeh.streamlit.app/)
+
 ## Problem
 
 Important client decisions are often spread across meeting notes, chat threads, and individual memory.
