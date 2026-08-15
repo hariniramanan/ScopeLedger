@@ -34,23 +34,50 @@ ScopeLedger maintains a longitudinal source of project truth instead of treating
 ## Architecture
 
 ```text
-Streamlit UI
-    |
-    v
-Amazon API Gateway
-    |
-    v
-AWS Lambda
-    |
-    +---- deterministic extraction / risk / optimization
-    |
-    v
-CockroachDB Cloud
-    |
-    +---- structured project memory
-    +---- evidence history
-    +---- VECTOR embeddings
-    +---- Distributed Vector Index
+## Architecture
+
+```mermaid
+flowchart TD
+
+    U[Project Manager] --> UI[ScopeLedger<br/>Streamlit UI]
+
+    UI -->|GET /memory| APIGW[Amazon API Gateway]
+    UI -->|POST /meetings| APIGW
+    UI -->|POST /search| APIGW
+
+    APIGW --> LAMBDA[AWS Lambda<br/>Agent Runtime]
+
+    LAMBDA --> INGEST[Meeting Ingestion]
+    LAMBDA --> RISK[Risk & Contradiction Engine]
+    LAMBDA --> OPT[Delivery Optimizer]
+    LAMBDA --> SEARCH[Semantic Memory Retrieval]
+
+    INGEST --> CRDB[(CockroachDB Cloud)]
+    RISK --> CRDB
+    OPT --> CRDB
+    SEARCH --> CRDB
+
+    CRDB --> STRUCT[Structured Memory<br/>Meetings • Decisions • Commitments<br/>Scope • Changes • Evidence]
+
+    CRDB --> VECTOR[Vector Memory<br/>VECTOR 384]
+    VECTOR --> DVI[Distributed Vector Index]
+
+    LOCAL[all-MiniLM-L6-v2<br/>Embedding Model] -->|384-d embedding| UI
+
+    MCP[CockroachDB Cloud<br/>Managed MCP Server] --> CRDB
+    CCLOUD[ccloud CLI] --> CRDB
+
+    BEDROCK[Amazon Bedrock<br/>Optional Enhancement]
+    LAMBDA -. optional extraction / reasoning .-> BEDROCK
+```
+### Architecture principles
+
+- **CockroachDB is the system of record** for persistent agent memory.
+- **AWS Lambda is the agent execution layer** for ingestion, retrieval, risk analysis, and optimization.
+- **Distributed Vector Indexing** powers semantic retrieval over historical project evidence.
+- **CockroachDB Managed MCP** provides agent access to live project memory.
+- **ccloud CLI** is used for CockroachDB Cloud operational inspection and management.
+- **Amazon Bedrock is optional** and is not required for the core ScopeLedger workflow.
 ```
 
 CockroachDB Managed MCP provides agent access to the live project memory.
