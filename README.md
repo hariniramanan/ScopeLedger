@@ -32,20 +32,19 @@ ScopeLedger maintains a longitudinal source of project truth instead of treating
 - semantic vector memories
 
 ## Architecture
-
 ```mermaid
 flowchart TD
 
-    U[Project Manager] --> UI[ScopeLedger<br/>Streamlit UI]
+    U[Project Manager] --> UI[ScopeLedger Streamlit UI]
 
-    UI -->|GET /memory| APIGW[Amazon API Gateway]
-    UI -->|POST /meetings| APIGW
-    UI -->|POST /search| APIGW
+    UI -->|GET memory| APIGW[Amazon API Gateway]
+    UI -->|POST meetings| APIGW
+    UI -->|POST search| APIGW
 
-    APIGW --> LAMBDA[AWS Lambda<br/>Agent Runtime]
+    APIGW --> LAMBDA[AWS Lambda Agent Runtime]
 
     LAMBDA --> INGEST[Meeting Ingestion]
-    LAMBDA --> RISK[Risk & Contradiction Engine]
+    LAMBDA --> RISK[Risk and Contradiction Engine]
     LAMBDA --> OPT[Delivery Optimizer]
     LAMBDA --> SEARCH[Semantic Memory Retrieval]
 
@@ -54,18 +53,17 @@ flowchart TD
     OPT --> CRDB
     SEARCH --> CRDB
 
-    CRDB --> STRUCT[Structured Memory<br/>Meetings • Decisions • Commitments<br/>Scope • Changes • Evidence]
+    CRDB --> STRUCT[Structured Memory]
+    CRDB --> VECTOR[Vector Memory 384D]
 
-    CRDB --> VECTOR[Vector Memory<br/>VECTOR 384]
     VECTOR --> DVI[Distributed Vector Index]
 
-    LOCAL[all-MiniLM-L6-v2<br/>Embedding Model] -->|384-d embedding| UI
+    EMBED[all-MiniLM-L6-v2 Embedding Model] --> UI
 
-    MCP[CockroachDB Cloud<br/>Managed MCP Server] --> CRDB
+    MCP[CockroachDB Managed MCP Server] --> CRDB
     CCLOUD[ccloud CLI] --> CRDB
 
-    BEDROCK[Amazon Bedrock<br/>Optional Enhancement]
-    LAMBDA -. optional extraction / reasoning .-> BEDROCK
+    BEDROCK[Amazon Bedrock Optional] -.-> LAMBDA
 ```
 ### Architecture principles
 
