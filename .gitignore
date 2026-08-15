@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+.DS_Store
+.vscode/
+
+lambda_layer/
+scopeledger-db-layer.zip
+
+*.pyc
